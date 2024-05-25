@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mango clicker - El mejor clicker de la historia solo aquí!!!!!!</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+        }
+        .clicker-image:hover {
+            transform: scale(1.1);
+        }
+        .clicker-image:active {
+            transform: scale(0.9);
+        }
+        .container {
+            max-width: 640px;
+            margin: 0 auto;
+            padding: 16px;
+        }
+        header, footer {
+            padding: 8px 0;
+        }
+    </style>
+</head>
+<body onload="temporizador();" class="bg-white text-gray-800">
+    <header class="text-center border-b border-gray-300">
+        <h1 class="text-3xl font-bold">LOGO</h1>
+    </header>
+
+    <main class="container">
+        <div class="flex justify-between my-4">
+            <div class="text-center">
+                <span class="text-sm font-semibold">Mejor</span>
+                <span id="mejorClicks" class="text-lg font-bold">0</span>
+            </div>
+            <div class="text-center">
+                <span class="text-sm font-semibold">Tiempo</span>
+                <span id="temporizador" class="text-lg font-bold">10</span>
+            </div>
+            <div class="text-center">
+                <span class="text-sm font-semibold">Clicks</span>
+                <span id="contClicks" class="text-lg font-bold">0</span>
+            </div>
+        </div>
+
+        <div class="flex flex-col items-center">
+            <img src="Mango.jpg" alt="Mango para clickear" class="clicker-image" onclick="clic();" style="width: 200px; height: 200px; transition: transform 0.2s;"/>
+            <div id="codigoContenedor" class="mt-4 hidden">
+                <p id="codigos" class="text-lg font-bold text-red-600">Código</p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="text-center border-t border-gray-300">
+        <span class="text-sm">Footer Content Here</span>
+    </footer>
+
+
+    <script>
+        var clicks = 0, clicksNecesarios = 10; // Asumiendo que necesitas 10 clicks para mostrar el código.
+        const codigosArrays = ["codigo1", "codigo2", "codigo3"];
+        var tiempo = 10;
+        var mejorClicks = 0;
+        
+        function clic() {
+            if (tiempo > 0) {
+                clicks++;
+                if (clicks > mejorClicks) {
+                    mejorClicks = clicks;
+                    document.getElementById("mejorClicks").innerText = mejorClicks;
+                }
+            }
+        }
+
+        function render() {
+            document.getElementById("contClicks").innerText = clicks;
+        }
+
+        function temporizador() {
+            document.getElementById("temporizador").innerText = tiempo;
+            if (tiempo <= 0) {
+                alert('Se acabó el tiempo');
+                mostrarCodigoSiEsNecesario();
+                return;
+            }
+            tiempo -= 1;
+            setTimeout("temporizador()", 1000);
+        }
+
+        function mostrarCodigoSiEsNecesario() {
+            if (clicks >= clicksNecesarios) {
+                const elementoAleatorio = codigosArrays[Math.floor(Math.random() * codigosArrays.length)];
+                document.getElementById("codigos").innerText = elementoAleatorio;
+                document.getElementById("codigoContenedor").classList.remove('hidden');
+            }
+        }
+
+        const intervalo = setInterval(function () {
+            render();
+            if (tiempo <= 0) {
+                clearInterval(intervalo);
+            }
+        }, 1000 / fps);
+    </script>
+</body>
+</html>
